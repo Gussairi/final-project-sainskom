@@ -15,15 +15,20 @@ def linear_interpolation(x, y, x_new):
 def quadratic_interpolation(x, y, x_new):
     y_new = []
     for xi in x_new:
-        yi = 0
         for i in range(len(x) - 2):
             if x[i] <= xi <= x[i + 2]:
-                L0 = ((xi - x[i + 1]) * (xi - x[i + 2])) / ((x[i] - x[i + 1]) * (x[i] - x[i + 2]))
-                L1 = ((xi - x[i]) * (xi - x[i + 2])) / ((x[i + 1] - x[i]) * (x[i + 1] - x[i + 2]))
-                L2 = ((xi - x[i]) * (xi - x[i + 1])) / ((x[i + 2] - x[i]) * (x[i + 2] - x[i + 1]))
-                yi = L0 * y[i] + L1 * y[i + 1] + L2 * y[i + 2]
+                A = np.array([
+                    [x[i]**2, x[i], 1],
+                    [x[i+1]**2, x[i+1], 1],
+                    [x[i+2]**2, x[i+2], 1]
+                ])
+                B = np.array([y[i], y[i+1], y[i+2]])
+                
+                a, b, c = np.linalg.solve(A, B)
+                
+                yi = a * xi**2 + b * xi + c
+                y_new.append(yi)
                 break
-        y_new.append(yi)
     return np.array(y_new)
 
 
@@ -48,12 +53,12 @@ for xi, yi in zip(x_preds, y_pred_quadratic):
 
 plt.figure(figsize=(10, 6))
 plt.plot(x, y, 'o', label='Data points', markersize=8)
+
 plt.plot(x_graph, y_linear_graph, '-', label='Linear Interpolation')
-plt.plot(x_graph, y_quadratic_graph, '-', label='Quadratic Interpolation')
-
 plt.plot(x_preds, y_pred_linear, 'ro', label='Predicted points (Linear)')
-plt.plot(x_preds, y_pred_quadratic, 'ro', label='Predicted points (Quadratic)')
 
+plt.plot(x_graph, y_quadratic_graph, '-', label='Quadratic Interpolation')
+plt.plot(x_preds, y_pred_quadratic, 'ro', label='Predicted points (Quadratic)')
 
 plt.legend()
 plt.xlabel('x')
