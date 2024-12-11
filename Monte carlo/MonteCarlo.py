@@ -1,10 +1,11 @@
 import random
+import matplotlib.pyplot as plt
 
 permintaan = int(input("Max permintaan: "))
 permintaan_list = []
 for i in range(0, permintaan):
     permintaan_list.append(i)
-print()
+print("========================================")
 
 frekuensi_list = []
 for i in range(permintaan):
@@ -34,16 +35,12 @@ def interval_bilangan_acak(kumulatif_list):
             interval_list.append((1, int(kumulatif * 100)))
         else:
             interval_list.append((int(kumulatif_list[i-1] * 100) + 1, int(kumulatif * 100)))
-    # Memastikan interval terakhir tidak lebih dari 99
     interval_list[-1] = (interval_list[-1][0], 99)
     return interval_list
 
 def simulasi():
-    print()
     prob_list = probabilitas(frekuensi_list)
-    print()
     kumulatif_list = kumulatif(prob_list)
-    print()
     interval_list = interval_bilangan_acak(kumulatif_list)
     print()
 
@@ -55,7 +52,7 @@ def simulasi():
     print()
     for i, prob in enumerate(interval_list):
         print(f"Interval bilangan acak: {interval_list[i][0]} - {interval_list[i][1]}")
-    print()
+    print("========================================")
 
     perkiraan_permintaan = int(input("Masukkan perkiraan permintaan: "))
     
@@ -77,5 +74,18 @@ def simulasi():
     rata_rata_permintaan = total_permintaan / perkiraan_permintaan if perkiraan_permintaan > 0 else 0
     print(f"\nJumlah seluruh hasil permintaan: {total_permintaan}")
     print(f"Rata-rata permintaan: {rata_rata_permintaan:.2f}")
+
+    hasil = [hasil for _, hasil in hasil_simulasi]
+    banyak_permintaan = [hasil.count(i) for i in permintaan_list]
+
+    plt.bar(permintaan_list, banyak_permintaan, color='skyblue', edgecolor='black')
+    plt.title("Jumlah Permintaan dari Hasil Simulasi")
+    plt.xlabel("Permintaan")
+    plt.ylabel("Banyaknya Permintaan")
+    plt.xticks(permintaan_list)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    for i, nilai in enumerate(banyak_permintaan):
+        plt.text(i, nilai + 1, str(nilai), ha='center', va='bottom')
+    plt.show()
 
 simulasi()

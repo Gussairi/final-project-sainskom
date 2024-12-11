@@ -5,7 +5,10 @@ import matplotlib.pyplot as plt
 def input_persamaan():
     persamaan = input("Masukkan persamaan (gunakan x sebagai variabel, contoh: x*exp(-x) + 1): ")
     x = sp.symbols('x')
-    persamaan = sp.sympify(persamaan)
+    try:
+        persamaan = sp.sympify(persamaan)
+    except sp.SympifyError:
+        raise ValueError("Persamaan tidak valid. Pastikan menggunakan format yang benar.")
     return persamaan, x
 
 def persamaan_ke_fungsi(persamaan, x):
@@ -14,48 +17,42 @@ def persamaan_ke_fungsi(persamaan, x):
 
 def metode_biseksi(f, a, b, tol=1e-5, max_iter=20):
     if f(a) * f(b) >= 0:
-        raise ValueError("f(a) and f(b) must have opposite signs")
+        raise ValueError("f(a) dan f(b) harus memiliki tanda yang berlawanan")
     
-    iterations = []
     for _ in range(max_iter):
         c = (a + b) / 2
-        iterations.append(c)
         if abs(b - a) < tol:
-            return c, iterations
+            return c
         if f(c) * f(a) < 0:
             b = c
         else:
             a = c
-    return (a + b) / 2, iterations
+    return (a + b) / 2
 
-def visualisasi(f, a, b):
-    x_vals = np.linspace(a - 1, b + 1, 400)
-    y_vals = f(x_vals)
-    
-    plt.plot(x_vals, y_vals, label="f(x) = x * exp(-x) + 1", color='blue')
-    plt.axhline(0, color='black',linewidth=1)
-    plt.axvline(0, color='black',linewidth=1)
+persamaan, x = input_persamaan()
+f = persamaan_ke_fungsi(persamaan, x)
 
-    plt.title('Metode Biseksi: Proses Iterasi')
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.legend()
-    plt.grid(True)
-    plt.show()
+print("\nMetode Biseksi: Proses Mencari Akar")
+a = float(input("Masukkan nilai a: "))
+b = float(input("Masukkan nilai b: "))
 
-def main():
-    persamaan, x = input_persamaan()
-    f = persamaan_ke_fungsi(persamaan, x)
-    
-    print("\nMetode Biseksi: Proses Mencari Akar")
-    a = float(input("Masukkan nilai a: "))
-    b = float(input("Masukkan nilai b: "))
-    tol = float(input("Masukkan toleransi error (contoh: 0.0001): "))
-    
-    root, iterations = metode_biseksi(f, a, b, tol)
-    print(f"Akar persamaan (Metode Biseksi): {root:.6f}")
+tol = float(input("Masukkan toleransi error (contoh: 0.0001): "))
+if tol <= 0:
+    raise ValueError("Toleransi error harus positif.")
 
-    visualisasi(f, a, b, iterations)
+root = metode_biseksi(f, a, b, tol)
+print(f"Akar persamaan (Metode Biseksi): {root:.6f}")
 
-if __name__ == "__main__":
-    main()
+x_vals = np.linspace(a - 1, b + 1, 400)
+y_vals = f(x_vals)
+
+plt.plot(x_vals, y_vals, label="f(x)", color='blue')
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+
+plt.title('Metode Biseksi: Proses Iterasi')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.legend()
+plt.grid(True)
+plt.show()
