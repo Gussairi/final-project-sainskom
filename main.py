@@ -15,8 +15,12 @@ def display_menu():
     print("3. Iterasi Gauss Seidel")
     print("4. Iterasi Jacobi")
     print("5. Markov Chain")
-    print("6. Linear + Kuadratic Interpolation")
+    print("6. Linear + Quadratic Interpolation")
     print("7. Polinom Newton")
+    print("8. Eliminasi Gauss")
+    print("9. LU Decomposition")
+    print("10. Matriks")
+    print("11. Matrisk Numpy")
     print("0. Exit")
 
 def main():
@@ -28,6 +32,10 @@ def main():
         5: "markov_iterasi\markovChain.py",
         6: "interpolation\linearQuadraticInterpolation.py",
         7: "interpolation\polinomNewton.py",
+        8: "matriks_LU_Gauss\eliminasi_gauss.py",
+        9: "matriks_LU_Gauss\LU_Decomposition.py", 
+        10: "matriks_LU_Gauss\MatriksList.py", 
+        11: "matriks_LU_Gauss\MatriksNumpy.py", 
     }
 
     while True:
