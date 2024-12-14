@@ -25,14 +25,26 @@ def newton_interpolation(x, y, x_new):
     
     return y_new
 
-x = np.array([0, 1, 2, 3, 4])
-y = np.array([0, 1, 4, 9, 16])#y = x^2
+
+print("Masukkan data x (pisahkan dengan spasi):")
+x = np.array(list(map(float, input().split())))
+
+print("Masukkan data y (pisahkan dengan spasi, sesuai jumlah x):")
+y = np.array(list(map(float, input().split())))
+
+print("Masukkan nilai x untuk prediksi (pisahkan dengan spasi):")
+x_preds = np.array(list(map(float, input().split())))
+
+
+# x = np.array([0, 1, 2, 3, 4])
+# y = np.array([0, 1, 4, 9, 16])#y = x^2
+# x_preds = np.array([2.5, 3.5]) 
+
 
 x_new = np.linspace(min(x), max(x), 100)
 
 y_new = newton_interpolation(x, y, x_new)
 
-x_preds = np.array([2.5, 3.5]) 
 y_preds = newton_interpolation(x, y, x_preds)
 
 for xi, yi in zip(x_preds, y_preds):

@@ -36,12 +36,28 @@ def gaussElimination(A, b):
 
     return x
 
-# Contoh Penggunaan 
-A = np.array([[4, 8, 4],
-              [2, 1, -4],
-              [3, -1, 2]])
+A = []
+b = []
+n = int(input("Masukkan dimensi matriks: "));
 
-b = np.array([80,7,22])
+for i in range(n): 
+    row = list(map(int, input(f"Masukkan {n} elemen untuk baris {i+1} (pisahkan dengan spasi): ").split()))
+    A.append(row)
+
+b = list(map(int, input(f"Masukkan {n} elemen sebagai konstanta (pisahkan dengan spasi): ").split()))
+    
+
+A = np.array(A)
+b = np.array(b)
+
+# A = np.array([[4, 8, 4],
+#               [2, 1, -4],
+#               [3, -1, 2]])
+
+# b = np.array([80,7,22])
+
+print(A)
+print(b)
 
 result = gaussElimination(A, b)
 print("Hasil solusi adalah:", result)

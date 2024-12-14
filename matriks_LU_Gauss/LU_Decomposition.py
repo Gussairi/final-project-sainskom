@@ -6,12 +6,12 @@ def lu_decomposition(A):
     Upper = np.zeros((n, n))
 
     for i in range(n):
-        # Upper triangular matriks
+        #Upper triangular matriks
         for k in range(i, n):
             sum_u = sum(Lower[i][j] * Upper[j][k] for j in range(i))
             Upper[i][k] = A[i][k] - sum_u
 
-        # Lower triangular matriks
+        #Lower triangular matriks
         for k in range(i, n):
             if i == k:
                 Lower[i][i] = 1
@@ -22,10 +22,18 @@ def lu_decomposition(A):
     return Lower, Upper
 
 # Contoh Penggunaan
-A = np.array([[4, 1, 2, 9],
-            [6, 3, 6, 4],
-            [1, 5, 3, 2],
-            [2, 4, 8, 0]])
+# A = np.array([[4, 1, 2, 9],
+#             [6, 3, 6, 4],
+#             [1, 5, 3, 2],
+#             [2, 4, 8, 0]])
+
+A = []
+n = int(input("Masukkan dimensi matriks: "));
+
+for i in range(n): 
+    row = list(map(int, input(f"Masukkan {n} elemen untuk baris {i+1} (pisahkan dengan spasi): ").split()))
+    A.append(row)
+
 
 Lower, Upper = lu_decomposition(A)
 print("Matriks A:")

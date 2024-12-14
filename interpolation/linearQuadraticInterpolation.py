@@ -32,14 +32,26 @@ def quadratic_interpolation(x, y, x_new):
     return np.array(y_new)
 
 
-x = np.array([1, 2, 4, 5, 10, 25, 50])
-y = np.array([0, 2, 6, 8, 19, 30, 150])
+# x = np.array([1, 2, 4, 5, 10, 25, 50])
+# y = np.array([0, 2, 6, 8, 19, 30, 150])
+# x_preds = np.array([30]) 
+
+
+print("Masukkan data x (pisahkan dengan spasi):")
+x = np.array(list(map(float, input().split())))
+
+print("Masukkan data y (pisahkan dengan spasi, sesuai jumlah x):")
+y = np.array(list(map(float, input().split())))
+
+print("Masukkan nilai x untuk prediksi (pisahkan dengan spasi):")
+x_preds = np.array(list(map(float, input().split())))
+
 
 x_graph = np.linspace(min(x), max(x), 100)
 y_linear_graph = linear_interpolation(x, y, x_graph)
 y_quadratic_graph = quadratic_interpolation(x, y, x_graph)
 
-x_preds = np.array([30]) 
+
 y_pred_linear = linear_interpolation(x, y, x_preds)
 y_pred_quadratic = quadratic_interpolation(x, y, x_preds)
 
